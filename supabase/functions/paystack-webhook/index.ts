@@ -34,7 +34,6 @@ Deno.serve(async (req) => {
   const customerCode = typeof data.customer === "object" ? data.customer?.customer_code : data.customer;
   const subscriptionCode = data.subscription?.subscription_code || data.subscription_code || null;
   const reference = data.reference || data.transaction?.reference || null;
-  const email = typeof data.customer === "object" ? data.customer?.email?.toLowerCase() : null;
 
   // First identify the account by the server-created checkout reference. Never trust user_id from a browser.
   let userId: string | null = null;
@@ -47,15 +46,16 @@ Deno.serve(async (req) => {
     const { data: ent } = await admin.from("smartlearn_entitlements").select("user_id").eq("paystack_customer_code", customerCode).maybeSingle();
     userId = ent?.user_id || null;
   }
-  // Last-resort mapping by verified Paystack customer email to Supabase Auth; never accept email from metadata alone.
-  if (!userId && email) {
-    const { data: users } = await admin.auth.admin.listUsers({ page: 1, perPage: 1000 });
-    userId = users?.users?.find((u) => u.email?.toLowerCase() === email)?.id || null;
-  }
 
   if (event.event === "charge.success") {
     // A successful charge must include a transaction reference and be a successful charge.
     if (!reference || data.status !== "success") return reply(200);
+    const expectedPlan = Deno.env.get("PAYSTACK_PLAN_CODE") || "";
+    const eventPlan = data.plan_object?.plan_code || data.plan?.plan_code || "";
+    const { data: knownTx } = await admin.from("smartlearn_payment_transactions").select("user_id").eq("reference", reference).maybeSingle();
+    // First checkout must match a server-created pending reference. Renewal charges must map
+    // to a previously stored Paystack customer and the configured subscription plan.
+    if (!knownTx && (!customerCode || !eventPlan || eventPlan !== expectedPlan || !subscriptionCode)) return reply(200);
     if (!userId) {
       console.error("Verified Paystack charge could not be mapped to SmartLearn account", reference);
       return reply(200);
