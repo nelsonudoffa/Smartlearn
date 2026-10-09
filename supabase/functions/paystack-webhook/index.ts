@@ -55,7 +55,7 @@ Deno.serve(async (req) => {
     const { data: knownTx } = await admin.from("smartlearn_payment_transactions").select("user_id").eq("reference", reference).maybeSingle();
     // First checkout must match a server-created pending reference. Renewal charges must map
     // to a previously stored Paystack customer and the configured subscription plan.
-    if (!knownTx && (!customerCode || !eventPlan || eventPlan !== expectedPlan || !subscriptionCode)) return reply(200);
+    if (!knownTx && (!customerCode || !eventPlan || eventPlan !== expectedPlan)) return reply(200);
     if (!userId) {
       console.error("Verified Paystack charge could not be mapped to SmartLearn account", reference);
       return reply(200);
