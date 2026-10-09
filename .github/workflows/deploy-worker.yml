@@ -1,0 +1,28 @@
+name: Deploy SmartLearn Payments Worker
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "payments/worker/**"
+      - ".github/workflows/deploy-worker.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy-worker:
+    runs-on: ubuntu-latest
+    name: Deploy smartlearn-payments
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy Worker with Wrangler
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: payments/worker
+          command: deploy --config wrangler.jsonc
