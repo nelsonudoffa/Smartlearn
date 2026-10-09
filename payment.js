@@ -17,7 +17,19 @@
   }
   async function checkAccess(s) {
     const r = await fetch(fnUrl + "smartlearn-access", { headers: { apikey: config.publishableKey, Authorization: "Bearer " + s.access_token } });
-    const d = await r.json();
+    let d = {};
+    try { d = await r.json(); } catch (_) {}
+    if (!r.ok) {
+      const err = new Error(
+        r.status === 404
+          ? "The SmartLearn access function is not deployed yet (HTTP 404). Deploy smartlearn-access in Supabase, then refresh this page."
+          : r.status === 401
+            ? "Your sign-in session has expired. Sign in again, then refresh this page."
+            : "Supabase access check failed (HTTP " + r.status + "). " + (d.error || "Check the Edge Function deployment and secrets.")
+      );
+      err.status = r.status;
+      throw err;
+    }
     if (r.ok && d.active) {
       statusEl.textContent = "Your subscription is active. You can use SmartLearn on this device and any other device where you sign in.";
       statusEl.className = "pay-status success";
@@ -40,8 +52,10 @@
       statusEl.textContent = "Signed in as " + s.user.email + ". Continue to Paystack to start your monthly subscription.";
       button.disabled = false;
     } catch (e) {
-      statusEl.textContent = "Could not check account status. Confirm the SmartLearn Edge Functions have been deployed.";
+      statusEl.textContent = e.message || "Could not check account status. Check the Supabase Edge Function deployment.";
       statusEl.className = "pay-status error";
+      // Do not let a visitor mistake a failed backend check for a working checkout.
+      button.disabled = true;
     }
   }
   button.addEventListener("click", async () => {
