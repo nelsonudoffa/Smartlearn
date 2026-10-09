@@ -30,6 +30,7 @@
     if (signInBtn) signInBtn.hidden = signedIn;
     if (signUpBtn) signUpBtn.hidden = signedIn;
     if (passwordEl) passwordEl.value = "";
+    window.dispatchEvent(new CustomEvent("smartlearn-auth-state", { detail: { signedIn, user: signedIn ? { id: user.id, email: user.email } : null } }));
     if (signedIn) {
       status("Signed in as " + (user.email || "student") + ". Secure identity is ready; paid access is not enabled until payment activation is completed.");
     } else {
