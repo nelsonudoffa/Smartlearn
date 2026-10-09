@@ -1,0 +1,11 @@
+{
+  "name": "SmartLearn",
+  "short_name": "SmartLearn",
+  "description": "Low-data exam preparation for Nigerian students.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#155eef",
+  "icons": []
+}
