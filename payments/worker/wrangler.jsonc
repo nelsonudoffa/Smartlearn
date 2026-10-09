@@ -17,10 +17,5 @@
       "database_name": "smartlearn-payments",
       "database_id": "af80b278-23f6-4645-b7d2-36c05af536b8"
     }
-  ],
-  "secrets": {
-    "required": [
-      "PAYSTACK_SECRET_KEY"
-    ]
-  }
+  ]
 }
