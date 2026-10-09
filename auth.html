@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#155eef">
+<meta name="description" content="Sign in or create your SmartLearn student account.">
+<title>Sign in — SmartLearn</title>
+<link rel="stylesheet" href="./styles.css">
+<style>
+.auth-page{min-height:100vh;display:flex;flex-direction:column}
+.auth-main{width:min(100% - 2rem,520px);margin:clamp(2rem,8vh,5rem) auto;flex:1}
+.auth-brand{display:flex;justify-content:center;margin:1rem 0 2rem}
+.auth-panel{padding:clamp(1.25rem,5vw,2rem)}
+.auth-panel h1{margin:.25rem 0 .75rem}
+.auth-panel .form-grid{margin-top:1.5rem}
+.auth-actions{display:flex;gap:.75rem;flex-wrap:wrap}
+.auth-actions .btn{flex:1}
+.auth-back{display:inline-block;margin-bottom:1.25rem}
+</style>
+</head>
+<body class="auth-page">
+<header class="topbar"><a class="brand" href="./index.html"><span class="brand-mark">S</span> SmartLearn</a><a class="btn secondary" href="./index.html">Back to learning</a></header>
+<main class="auth-main">
+<a class="auth-back muted" href="./index.html">← Back to SmartLearn</a>
+<div class="auth-brand"><span class="brand-mark">S</span></div>
+<section class="panel auth-panel">
+<p class="eyebrow">YOUR LEARNING, YOUR PACE</p>
+<h1>Welcome to SmartLearn</h1>
+<p class="muted">Sign in to your student account, or create an account to get started.</p>
+<p id="authStatus" class="muted" role="status" aria-live="polite">Checking authentication setup…</p>
+<form id="authForm" class="form-grid">
+<label>Email address<input id="authEmail" type="email" autocomplete="email" required placeholder="you@example.com"></label>
+<label>Password<input id="authPassword" type="password" autocomplete="current-password" minlength="8" required placeholder="At least 8 characters"></label>
+<div class="auth-actions"><button class="btn primary" type="submit" id="signInBtn">Sign in</button><button class="btn secondary" type="button" id="signUpBtn">Create account</button><button class="btn secondary" type="button" id="signOutBtn" hidden>Sign out</button></div>
+</form>
+<p class="muted small">Use a unique password. Email confirmation may be required. Paid access is not enabled until payment activation and protected lesson delivery are completed.</p>
+</section>
+</main>
+<footer><a class="brand" href="./index.html"><span class="brand-mark">S</span> SmartLearn</a><p>Made to make learning more accessible.</p></footer>
+<script src="./auth-config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="./auth.js"></script>
+</body>
+</html>
