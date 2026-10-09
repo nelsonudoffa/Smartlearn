@@ -12,7 +12,7 @@
     {
       "binding": "DB",
       "database_name": "smartlearn-payments",
-      "database_id": "REPLACE_WITH_CLOUDFLARE_D1_DATABASE_ID"
+      "database_id": "af80b278-23f6-4645-b7d2-36c05af536b8"
     }
   ],
   "secrets": {
