@@ -1,0 +1,10 @@
+# Supabase Edge Function settings.
+# Paystack webhook signature validation is performed in the function.
+[functions.paystack-webhook]
+verify_jwt = false
+
+[functions.paystack-initialize]
+verify_jwt = true
+
+[functions.smartlearn-access]
+verify_jwt = true
