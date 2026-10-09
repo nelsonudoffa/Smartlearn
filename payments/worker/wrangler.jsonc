@@ -6,7 +6,10 @@
   "vars": {
     "ALLOWED_ORIGIN": "https://nelsonudoffa.github.io",
     "PAYSTACK_PLAN_CODE": "PLN_fbxdzjgbyrud001",
-    "PAYSTACK_CALLBACK_URL": "https://nelsonudoffa.github.io/Smartlearn/#payment-return"
+    "PAYSTACK_CALLBACK_URL": "https://nelsonudoffa.github.io/Smartlearn/#payment-return",
+    "AUTH_JWKS_URL": "https://ktdrtgndvftlyakbavna.supabase.co/auth/v1/.well-known/jwks.json",
+    "AUTH_ISSUER": "https://ktdrtgndvftlyakbavna.supabase.co/auth/v1",
+    "AUTH_AUDIENCE": "authenticated"
   },
   "d1_databases": [
     {
