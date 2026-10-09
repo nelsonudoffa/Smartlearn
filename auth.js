@@ -57,6 +57,7 @@
       return;
     }
     setSignedIn(data.user);
+    window.location.href = "./index.html#account";
   });
 
   signUpBtn.addEventListener("click", async () => {
@@ -80,6 +81,7 @@
     }
     if (data.session && data.user) {
       setSignedIn(data.user);
+      window.location.href = "./index.html#account";
     } else {
       status("Account created. Check your email for the confirmation link, then return here to sign in.");
     }
