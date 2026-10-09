@@ -1,6 +1,5 @@
-// Public browser configuration only. Replace the placeholder with the Supabase publishable key
-// in GitHub. Never use a service_role or secret key in this file.
+// Public browser configuration only. Never put service-role or secret keys here.
 window.SMARTLEARN_SUPABASE = {
   url: "https://ktdrtgndvftlyakbavna.supabase.co",
-  publishableKey: "PASTE_YOUR_SUPABASE_PUBLISHABLE_KEY_HERE"
+  publishableKey: "sb_publishable_z-mdLqGyCEtjfdukcGWgvw_Zv2Yw-VV"
 };
