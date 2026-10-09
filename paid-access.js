@@ -39,6 +39,12 @@
         else { if (homePractice) gate("Sign in and activate your monthly subscription to use practice exams.", false); else { protectedLinks.forEach(a => { a.href="./auth.html"; a.textContent=a.textContent.trim()+" 🔒"; }); reveal(); } }
         return;
       }
+      // Trusted Supabase app_metadata is assigned by an administrator, not by the user.
+      // SmartLearn admins bypass the subscription gate across protected learning pages.
+      if (session.user?.app_metadata?.role === "admin") {
+        reveal();
+        return;
+      }
       const response = await fetch(config.url + "/functions/v1/smartlearn-access", {
         headers: { apikey: config.publishableKey, Authorization: "Bearer " + session.access_token }
       });
