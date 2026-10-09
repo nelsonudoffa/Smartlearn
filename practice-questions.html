@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#155eef"><meta name="description" content="Original SmartLearn WAEC and NECO revision questions with answers and explanations."><title>SmartLearn Original Practice Questions</title><link rel="stylesheet" href="./styles.css">
+<style>
+.practice-wrap{max-width:900px;margin:auto}.practice-controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:20px 0}.practice-controls label{display:grid;gap:6px;font-weight:600}.practice-controls select{padding:12px;border:1px solid #d0d5dd;border-radius:9px;background:white}.question-card{background:#fff;border:1px solid #e4e7ec;border-radius:14px;padding:18px;margin:14px 0;break-inside:avoid}.question-card h3{font-size:1.05rem}.answer-option{display:block;padding:9px 10px;border-radius:8px;margin:6px 0;background:#f9fafb}.answer-option input{margin-right:8px}.feedback{display:none;margin-top:12px;padding:12px;border-radius:8px;background:#eff8ff;line-height:1.6}.feedback.show{display:block}.practice-actions{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0}.practice-actions button{border:0;cursor:pointer}.disclaimer{background:#fffaeb;border:1px solid #fedf89;border-radius:12px;padding:14px;line-height:1.6}.score{font-weight:700;margin:12px 0}@media print{.topbar,footer,.practice-actions,.practice-controls,.back-link,.disclaimer{display:none!important}body{background:white}.section{padding:0}.question-card{box-shadow:none;border:1px solid #aaa}.feedback{display:block}.feedback:not(.show){display:block}}
+</style></head><body>
+<header class="topbar"><a class="brand" href="./index.html"><span class="brand-mark">S</span> SmartLearn</a><nav><a href="./index.html">Home</a><a href="./past-questions.html">Past questions</a><a href="./auth.html">Sign in</a></nav></header>
+<main class="section practice-wrap"><a class="back-link" href="./past-questions.html">← Back to past-question resources</a><p class="eyebrow">FREE REVISION PRACTICE</p><h1>SmartLearn practice questions</h1><p class="muted">Choose a subject and test yourself. These are original revision questions written for SmartLearn, not copied WAEC or NECO past-paper questions.</p>
+<div class="disclaimer"><strong>Important:</strong> These short starter quizzes are for revision and are not a full exam paper. For official past-paper materials, use the links on the <a href="./past-questions.html">WAEC &amp; NECO resources page</a>.</div>
+<div class="practice-controls"><label>Subject<select id="subject"><option>English Language</option><option>Mathematics</option><option>Physics</option><option>Chemistry</option><option>Agricultural Science</option><option>Biology</option><option>Economics</option></select></label><label>Exam focus<select id="exam"><option>WAEC</option><option>NECO</option><option>WAEC + NECO</option></select></label></div>
+<div id="questions"></div><div id="score" class="score" aria-live="polite"></div>
+<div class="practice-actions"><button class="btn primary" id="check">Check answers</button><button class="btn secondary" id="reset">Try again</button><button class="btn secondary" id="print">Print / Save as PDF</button></div>
+<p class="muted small">To save a PDF on Android: tap “Print / Save as PDF”, choose “Save as PDF” in the print destination, then save the file on your device.</p>
+</main><footer><a class="brand" href="./index.html"><span class="brand-mark">S</span> SmartLearn</a><p>Original practice for more accessible learning.</p></footer>
+<script>
+const bank={
+"English Language":[
+{q:"Choose the sentence with correct subject–verb agreement.",o:["The list of items are on the desk.","The list of items is on the desk.","The list of items were on the desk.","The list of items be on the desk."],a:1,e:"The subject is “list” (singular), so the correct verb is “is.”"},
+{q:"The word “reluctant” most nearly means:",o:["Unwilling","Delighted","Careless","Certain"],a:0,e:"Reluctant means hesitant or unwilling to do something."}],
+"Mathematics":[
+{q:"Solve: 3x + 5 = 20.",o:["3","5","8","15"],a:1,e:"Subtract 5 from both sides: 3x = 15. Divide by 3: x = 5."},
+{q:"Find 15% of 240.",o:["24","30","36","40"],a:2,e:"15/100 × 240 = 36."}],
+"Physics":[
+{q:"Which SI unit is used to measure force?",o:["Joule","Watt","Newton","Pascal"],a:2,e:"Force is measured in newtons (N)."},
+{q:"A car travels 120 metres in 10 seconds. Its average speed is:",o:["10 m/s","12 m/s","1200 m/s","0.083 m/s"],a:1,e:"Average speed = distance ÷ time = 120 ÷ 10 = 12 m/s."}],
+"Chemistry":[
+{q:"The atomic number of an element equals the number of:",o:["Neutrons only","Protons","Protons and neutrons","Electron shells"],a:1,e:"Atomic number is the number of protons in the nucleus."},
+{q:"A solution with pH 2 is best described as:",o:["Acidic","Neutral","Alkaline","A metal"],a:0,e:"A pH below 7 is acidic; pH 2 is strongly acidic."}],
+"Agricultural Science":[
+{q:"Which soil component mainly improves aeration and drainage?",o:["Clay only","Sand","Humus only","Dissolved salts"],a:1,e:"Sand has relatively large particles, allowing water and air to pass more readily."},
+{q:"The practice of growing different crops on a field in a planned sequence is called:",o:["Crop rotation","Monocropping","Overgrazing","Mulching"],a:0,e:"Crop rotation changes the crop grown in sequence and can help manage pests and maintain soil fertility."}],
+"Biology":[
+{q:"Which cell structure is the main site of aerobic respiration?",o:["Ribosome","Mitochondrion","Cell wall","Golgi apparatus"],a:1,e:"Mitochondria are the main sites of aerobic respiration in eukaryotic cells."},
+{q:"Which process describes the movement of water through a selectively permeable membrane from a dilute solution to a more concentrated one?",o:["Diffusion of gases","Osmosis","Transpiration","Active transport only"],a:1,e:"Osmosis is the net movement of water through a selectively permeable membrane down its water-potential gradient."}],
+"Economics":[
+{q:"If demand rises while supply remains unchanged, the equilibrium price will generally:",o:["Fall","Rise","Remain zero","Always stay unchanged"],a:1,e:"With supply unchanged, an increase in demand generally raises equilibrium price and quantity."},
+{q:"Opportunity cost is best defined as:",o:["The total money a firm earns","The next best alternative forgone","The price printed on a product","Government tax revenue"],a:1,e:"Opportunity cost is the value of the next best alternative sacrificed when making a choice."}]
+};
+const subject=document.getElementById("subject"),root=document.getElementById("questions"),score=document.getElementById("score");
+function render(){score.textContent="";root.innerHTML=bank[subject.value].map((q,i)=>'<section class="question-card" data-index="'+i+'"><h3>'+(i+1)+'. '+q.q+'</h3>'+q.o.map((o,j)=>'<label class="answer-option"><input type="radio" name="q'+i+'" value="'+j+'">'+String.fromCharCode(65+j)+'. '+o+'</label>').join("")+'<div class="feedback" id="feedback'+i+'"></div></section>').join("")}
+document.getElementById("check").addEventListener("click",()=>{const qs=bank[subject.value];let correct=0,answered=0;qs.forEach((q,i)=>{const picked=document.querySelector('input[name="q'+i+'"]:checked');const box=document.getElementById("feedback"+i);if(picked)answered++;const right=picked&&Number(picked.value)===q.a;if(right)correct++;box.classList.add("show");box.innerHTML=(right?"<strong>Correct.</strong> ":"<strong>Correct answer: "+String.fromCharCode(65+q.a)+". "+q.o[q.a]+".</strong> ")+q.e});score.textContent="Score: "+correct+"/"+qs.length+" · Answered: "+answered+"/"+qs.length});
+document.getElementById("reset").addEventListener("click",render);document.getElementById("print").addEventListener("click",()=>{document.querySelectorAll(".feedback").forEach(x=>x.classList.add("show"));window.print()});subject.addEventListener("change",render);render();
+</script></body></html>
