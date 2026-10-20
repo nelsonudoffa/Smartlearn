@@ -21,7 +21,7 @@
         button.disabled = true;
         return;
       }
-      statusEl.textContent = "Signed in as " + data.session.user.email + ". Transfer ₦1,000 to the OPay account above, then submit your transfer details for administrator approval.";
+      statusEl.textContent = "Signed in as " + data.session.user.email + ". Transfer ₦2,500 to the OPay account above, then submit your transfer details for administrator approval.";
       statusEl.className = "pay-status";
       button.disabled = false;
     } catch (_) {
@@ -46,7 +46,7 @@
         sender_name: document.getElementById("transferSender").value.trim(),
         receipt_url: document.getElementById("transferReceipt").value.trim() || null
       };
-      if (payload.amount !== 1000) throw new Error("Enter the exact monthly fee of ₦1,000.");
+      if (payload.amount !== 2500) throw new Error("Enter the exact monthly fee of ₦2,500.");
       const response = await fetch(config.url + "/functions/v1/smartlearn-bank-transfer-request", {
         method: "POST",
         headers: { "Content-Type": "application/json", apikey: config.publishableKey, Authorization: "Bearer " + s.access_token },
@@ -58,7 +58,7 @@
       statusEl.textContent = "Your transfer details have been submitted. Your SmartLearn access will remain locked until the administrator confirms receipt and approves the request.";
       statusEl.className = "pay-status success";
       form.reset();
-      document.getElementById("transferAmount").value = "1000";
+      document.getElementById("transferAmount").value = "2500";
     } catch (err) {
       statusEl.textContent = err.message || "Could not submit your transfer. Please try again.";
       statusEl.className = "pay-status error";
