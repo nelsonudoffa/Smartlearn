@@ -8,6 +8,37 @@
 <title>Sign in — SmartLearn</title>
 <link rel="stylesheet" href="./styles.css">
 <style>
+
+/* Distinct SmartLearn sign-in page */
+.auth-page{min-height:100vh;background:linear-gradient(135deg,#102f82 0%,#155eef 48%,#6d5dfc 100%);color:#182230}
+.auth-page .topbar{background:rgba(255,255,255,.97);border-bottom:0}
+.auth-main{width:min(100% - 2rem,1040px);margin:clamp(1.5rem,5vh,3.5rem) auto;flex:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(320px,.9fr);align-items:stretch;gap:0;filter:drop-shadow(0 22px 40px rgba(4,18,64,.2))}
+.auth-back{grid-column:1/-1;color:#fff!important;margin-bottom:1rem;text-shadow:0 1px 2px rgba(0,0,0,.15)}
+.auth-brand{display:none}
+.auth-promo{padding:clamp(2rem,5vw,3.5rem);border-radius:24px 0 0 24px;background:linear-gradient(145deg,#092b79,#155eef 70%,#4f46e5);color:white;display:flex;flex-direction:column;justify-content:center;min-height:510px;position:relative;overflow:hidden}
+.auth-promo:after{content:"S";position:absolute;font-size:20rem;line-height:1;font-weight:900;color:rgba(255,255,255,.06);right:-20px;bottom:-70px;pointer-events:none}
+.auth-promo .eyebrow{color:#c7d7ff}
+.auth-promo h2{font-size:clamp(2rem,4vw,3.2rem);line-height:1.06;letter-spacing:-.04em;margin:.25rem 0 1rem;max-width:450px}
+.auth-promo p{color:#e3eaff;max-width:420px}
+.auth-benefits{display:grid;gap:12px;margin-top:1.5rem;position:relative;z-index:1}
+.auth-benefit{display:flex;align-items:center;gap:12px;color:white;font-weight:650}
+.auth-benefit span{display:grid;place-items:center;width:34px;height:34px;border-radius:11px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2)}
+.auth-panel{border-radius:0 24px 24px 0;padding:clamp(1.5rem,4vw,2.75rem);box-shadow:none;border:0;display:flex;flex-direction:column;justify-content:center}
+.auth-panel h1{font-size:clamp(1.8rem,3vw,2.25rem);letter-spacing:-.04em;margin:.25rem 0 .5rem}
+.auth-panel .form-grid{display:flex;flex-direction:column;gap:8px;margin-top:1.25rem}
+.auth-panel .form-grid label{font-size:.9rem}
+.auth-panel .form-grid input{padding:13px 14px;border-radius:11px;border-color:#d0d5dd;background:#fbfcff;margin:7px 0 8px}
+.auth-panel .form-grid input:focus{outline:3px solid #dbe7ff;border-color:#155eef;background:white}
+.auth-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+.auth-actions .btn{width:100%;min-height:48px;border-radius:11px}
+.auth-actions .primary{box-shadow:0 7px 16px rgba(21,94,239,.22)}
+.auth-actions #signOutBtn{grid-column:1/-1}
+#authStatus{padding:11px 13px;border-radius:10px;background:#f2f6ff;color:#344054;overflow-wrap:anywhere}
+.auth-panel .small{line-height:1.55;margin-top:1rem}
+.auth-page footer{background:#fff;border-top:0}
+@media(max-width:760px){.auth-main{width:min(100% - 1.25rem,520px);display:flex;flex-direction:column;filter:none;margin:1rem auto 2rem}.auth-back{margin:0 0 .75rem}.auth-promo{min-height:auto;border-radius:20px 20px 0 0;padding:1.6rem}.auth-promo h2{font-size:2rem}.auth-promo .auth-benefits{grid-template-columns:1fr 1fr;gap:9px;margin-top:1rem}.auth-benefit{font-size:.82rem;align-items:flex-start}.auth-benefit span{flex:0 0 30px;width:30px;height:30px}.auth-panel{border-radius:0 0 20px 20px;padding:1.4rem}.auth-actions{grid-template-columns:1fr}.auth-actions #signOutBtn{grid-column:auto}}
+@media(max-width:380px){.auth-promo .auth-benefits{grid-template-columns:1fr}.auth-panel{padding:1.1rem}.auth-panel h1{font-size:1.65rem}}
+
 .auth-page{min-height:100vh;display:flex;flex-direction:column}
 .auth-main{width:min(100% - 2rem,520px);margin:clamp(2rem,8vh,5rem) auto;flex:1}
 .auth-brand{display:flex;justify-content:center;margin:1rem 0 2rem}
@@ -24,10 +55,21 @@
 <main class="auth-main">
 <a class="auth-back muted" href="./index.html">← Back to SmartLearn</a>
 <div class="auth-brand"><span class="brand-mark">S</span></div>
+<section class="auth-promo" aria-label="SmartLearn benefits">
+<p class="eyebrow">WELCOME TO SMARTLEARN</p>
+<h2>Your next big result starts here.</h2>
+<p>Build confidence one lesson at a time with a learning space made for Nigerian students.</p>
+<div class="auth-benefits">
+<div class="auth-benefit"><span>✓</span> WAEC &amp; NECO preparation</div>
+<div class="auth-benefit"><span>✓</span> Practice and improve</div>
+<div class="auth-benefit"><span>✓</span> Save lessons for later</div>
+<div class="auth-benefit"><span>✓</span> Your own student account</div>
+</div>
+</section>
 <section class="panel auth-panel">
-<p class="eyebrow">YOUR LEARNING, YOUR PACE</p>
-<h1>Welcome to SmartLearn</h1>
-<p class="muted">Sign in to your student account, or create an account to get started.</p>
+<p class="eyebrow">STUDENT ACCOUNT</p>
+<h1>Welcome back</h1>
+<p class="muted">Sign in to continue learning, or create your free account.</p>
 <p id="authStatus" class="muted" role="status" aria-live="polite">Checking authentication setup…</p>
 <form id="authForm" class="form-grid">
 <label>Email address<input id="authEmail" type="email" autocomplete="email" required placeholder="you@example.com"></label>
