@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#155eef">
+<title>Payment Reviews — SmartLearn</title>
+<link rel="stylesheet" href="./styles.css">
+<style>
+main{width:min(1100px,calc(100% - 2rem));margin:2rem auto;min-height:65vh}
+.head{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.panel{padding:1rem;margin:1rem 0}.status{margin:1rem 0}.hidden{display:none!important}
+.table-wrap{overflow-x:auto}.payments{width:100%;border-collapse:collapse;min-width:760px}
+.payments th,.payments td{text-align:left;padding:.75rem;border-bottom:1px solid #dce3ef;vertical-align:top}
+.payments th{background:#f3f7ff}.actions{display:flex;gap:.5rem;flex-wrap:wrap}
+.btn:disabled{opacity:.55;cursor:not-allowed}.small{font-size:.9rem}
+</style>
+</head>
+<body>
+<header class="topbar"><a class="brand" href="./index.html"><span class="brand-mark">S</span> SmartLearn</a><a class="btn secondary" href="./admin.html">Lesson manager</a></header>
+<main>
+<div class="head"><div><p class="eyebrow">ADMINISTRATION</p><h1>Payment reviews</h1><p class="muted">Review ₦2,500 OPay transfer requests before activating student access.</p></div><div class="actions"><button id="refreshBtn" class="btn secondary hidden" type="button">Refresh</button><button id="signOutBtn" class="btn secondary hidden" type="button">Sign out</button></div></div>
+<div class="notice panel"><strong>Verify first:</strong> check your OPay account and confirm the ₦2,500 transfer was received before approving. A receipt link alone is not proof of payment.</div>
+<p id="status" class="status muted" role="status" aria-live="polite">Checking administrator access…</p>
+<section id="reviewArea" class="hidden">
+<div class="panel"><div class="head"><h2>Pending requests</h2><span id="count" class="muted"></span></div>
+<div class="table-wrap"><table class="payments"><thead><tr><th>Submitted</th><th>Student</th><th>Amount</th><th>Sender name</th><th>Transfer reference</th><th>Receipt</th><th>Action</th></tr></thead><tbody id="requestsBody"><tr><td colspan="7">Loading…</td></tr></tbody></table></div>
+</div>
+</section>
+</main>
+<footer><a class="brand" href="./index.html"><span class="brand-mark">S</span> SmartLearn</a></footer>
+<script src="./auth-config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(async function(){
+const statusEl=document.getElementById('status'), area=document.getElementById('reviewArea'), body=document.getElementById('requestsBody'), count=document.getElementById('count'), refresh=document.getElementById('refreshBtn'), signOut=document.getElementById('signOutBtn');
+const cfg=window.SMARTLEARN_SUPABASE, sdk=window.supabase;
+if(!cfg||!sdk){statusEl.textContent='Supabase configuration could not be loaded.';return;}
+const client=sdk.createClient(cfg.url,cfg.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+function esc(value){return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function message(text,isError){statusEl.textContent=text;statusEl.className='status '+(isError?'error':'muted');}
+const {data,error}=await client.auth.getUser();
+if(error||!data.user){message('Please sign in with your administrator account to review payments.',true);const a=document.createElement('a');a.href='./auth.html';a.className='btn primary';a.textContent='Go to sign in';statusEl.after(a);return;}
+if(data.user.app_metadata?.role!=='admin'){message('Access denied. This account is not an administrator.',true);return;}
+area.classList.remove('hidden');refresh.classList.remove('hidden');signOut.classList.remove('hidden');message('Administrator verified: '+(data.user.email||'admin'),false);
+signOut.addEventListener('click',async()=>{await client.auth.signOut();location.href='./auth.html';});
+async function load(){
+refresh.disabled=true;body.innerHTML='<tr><td colspan="7">Loading requests…</td></tr>';
+const {data:rows,error}=await client.from('smartlearn_bank_transfer_requests').select('id,user_email,amount_ngn,sender_name,transfer_reference,receipt_url,status,created_at').eq('status','pending').order('created_at',{ascending:true});
+if(error){body.innerHTML='<tr><td colspan="7">Could not load requests.</td></tr>';count.textContent='';message('Could not load payment requests: '+error.message+'. Check the table SELECT grant and admin RLS policy.',true);refresh.disabled=false;return;}
+count.textContent=(rows||[]).length+' pending';
+if(!rows||!rows.length){body.innerHTML='<tr><td colspan="7">No pending payment requests.</td></tr>';message('Payment review page is ready. No pending requests were found.',false);refresh.disabled=false;return;}
+body.innerHTML=rows.map(r=>'<tr><td>'+esc(new Date(r.created_at).toLocaleString())+'</td><td>'+esc(r.user_email||'Student')+'</td><td>₦'+esc(Number(r.amount_ngn).toLocaleString())+'</td><td>'+esc(r.sender_name)+'</td><td>'+esc(r.transfer_reference)+'</td><td>'+(r.receipt_url?'<a target="_blank" rel="noopener noreferrer" href="'+esc(r.receipt_url)+'">Open receipt</a>':'Not provided')+'</td><td><div class="actions"><button class="btn primary" data-id="'+esc(r.id)+'" data-decision="approved" type="button">Approve</button><button class="btn secondary" data-id="'+esc(r.id)+'" data-decision="rejected" type="button">Reject</button></div></td></tr>').join('');
+message('Pending requests loaded. Verify each transfer before approving.',false);refresh.disabled=false;
+}
+body.addEventListener('click',async e=>{
+const button=e.target.closest('button[data-id]');if(!button)return;
+const decision=button.dataset.decision;
+if(decision==='approved'&&!confirm('Have you confirmed this ₦2,500 transfer was received in OPay? Approve and activate one month of access?'))return;
+if(decision==='rejected'&&!confirm('Reject this payment request?'))return;
+const rowButtons=button.closest('tr').querySelectorAll('button');rowButtons.forEach(b=>b.disabled=true);
+message('Processing '+decision+'…',false);
+const {data:result,error}=await client.rpc('smartlearn_admin_review_payment',{p_request_id:button.dataset.id,p_decision:decision});
+if(error){message('Review failed: '+error.message,true);rowButtons.forEach(b=>b.disabled=false);return;}
+if(!result||result.success!==true){message('The server did not confirm the review. Please refresh and check the request status.',true);rowButtons.forEach(b=>b.disabled=false);return;}
+message('Request '+decision+' successfully.',false);await load();
+});
+refresh.addEventListener('click',load);
+await load();
+})();
+</script>
+</body>
+</html>
