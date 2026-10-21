@@ -7,8 +7,8 @@
 @media(max-width:1000px){.hero{grid-template-columns:minmax(0,1fr) minmax(220px,.8fr)}.hero-card{grid-column:1/-1}.hero-visual img{max-width:320px;max-height:360px}}
 @media(max-width:640px){.hero{grid-template-columns:1fr;gap:26px;padding-top:38px;padding-bottom:38px}.hero-visual{grid-row:2}.hero-visual img{width:min(100%,330px);max-height:380px}.hero-card{grid-column:auto}}
 
-/* Fit the homepage student image without cropping, on all screen sizes */
-.hero-visual{width:100%;min-width:0;overflow:hidden}
-.hero-visual img{display:block;width:100%;height:auto;max-width:340px;max-height:420px;aspect-ratio:auto;object-fit:contain;object-position:center;border-radius:18px;border:0;box-shadow:0 12px 30px rgba(16,24,40,.12)}
-@media(max-width:1000px){.hero-visual img{width:100%;max-width:320px;max-height:380px}}
-@media(max-width:640px){.hero-visual{width:100%}.hero-visual img{width:100%;max-width:330px;max-height:400px;height:auto;margin-inline:auto;object-fit:contain}}
+/* Homepage student image: responsive, full-width on mobile, never crop the artwork */
+.hero-visual{width:100%;min-width:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.hero-visual img{display:block;width:100%;height:auto;max-width:360px;max-height:none;aspect-ratio:auto;object-fit:contain;object-position:center;border-radius:18px;border:0;box-shadow:0 12px 30px rgba(16,24,40,.12)}
+@media(max-width:1000px){.hero-visual img{width:100%;max-width:320px;max-height:none}}
+@media(max-width:640px){.hero-visual{width:100%;grid-row:2}.hero-visual img{width:100%;max-width:100%;max-height:none;height:auto;margin-inline:auto;object-fit:contain;border-radius:14px}}
