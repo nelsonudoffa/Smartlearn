@@ -109,3 +109,25 @@
 <script src="./auth.js"></script>
 </body>
 </html>
+
+<style>
+/* Final override: all sign-in page text and controls use white lettering */
+body.auth-page, body.auth-page * { color: #fff !important; }
+body.auth-page input,
+body.auth-page input:focus {
+  color: #fff !important;
+  background: #0b3ea8 !important;
+  border-color: rgba(255,255,255,.7) !important;
+  caret-color: #fff;
+}
+body.auth-page input::placeholder { color: #e3eaff !important; opacity: 1; }
+body.auth-page button,
+body.auth-page .btn,
+body.auth-page .auth-actions .primary,
+body.auth-page .auth-actions .secondary {
+  color: #fff !important;
+}
+body.auth-page .auth-status,
+body.auth-page #authStatus { color: #fff !important; background: #0b3ea8 !important; }
+body.auth-page a { color: #fff !important; }
+</style>
