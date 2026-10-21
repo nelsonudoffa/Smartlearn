@@ -107,6 +107,31 @@
 <script src="./auth-config.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="./auth.js"></script>
+
+<style>
+/* Ensure requested sign-in account text is white */
+.auth-page .auth-panel .eyebrow,
+.auth-page .auth-panel h1,
+.auth-page .auth-panel > p,
+.auth-page .auth-panel label,
+.auth-page #authStatus,
+.auth-page #authStatus *,
+.auth-page .auth-actions button,
+.auth-page .auth-actions button *,
+.auth-page .auth-panel .small,
+.auth-page .auth-panel .muted {
+  color: #ffffff !important;
+}
+.auth-page .auth-panel input,
+.auth-page .auth-panel input::placeholder {
+  color: #ffffff !important;
+}
+.auth-page .auth-panel input {
+  background: #0b3ea8 !important;
+  border-color: rgba(255,255,255,.75) !important;
+}
+</style>
+
 </body>
 </html>
 
