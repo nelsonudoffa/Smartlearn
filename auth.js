@@ -73,7 +73,7 @@
     const { data, error } = await client.auth.signUp({
       email,
       password,
-      options: { emailRedirectTo: "https://nelsonudoffa.github.io/Smartlearn/#login" }
+      options: { emailRedirectTo: "https://nelsonudoffa.github.io/Smartlearn/auth.html" }
     });
     signUpBtn.disabled = false;
     if (error) {
